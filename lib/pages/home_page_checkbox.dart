@@ -58,6 +58,7 @@ class _HomePageState extends State<HomePage> {
                 CheckboxListTile(
                   value: allStatus,
                   onChanged: (value) {
+                    print(value);
                     allStatus = value!;
                     colorsClass.selectAll(allStatus);
                   },
@@ -72,12 +73,15 @@ class _HomePageState extends State<HomePage> {
                         value: e,
                         builder: (context, child) => CheckboxListTile(
                           value: e.status,
-                          onChanged: (value) {
-                            colorsClass.updateStatus(e.id, !e.status).then(
+                          onChanged: (status) {
+                            print(status);
+                            colorsClass.updateStatus(e.id, status!).then(
                                   (value) => value
-                                      ? setState(() {
-                                          e.toogleStatus();
-                                        })
+                                      ? setState(
+                                          () {
+                                            e.toogleStatus();
+                                          },
+                                        )
                                       : null,
                                 );
 
