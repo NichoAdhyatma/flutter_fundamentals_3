@@ -16,6 +16,20 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool allStatus = false;
+  bool isInit = true;
+
+  @override
+  void didChangeDependencies() {
+    print("did change");
+    var provider = Provider.of<MultiColor>(context);
+    if (isInit) {
+      provider.intializeData();
+      isInit = !isInit;
+    }
+    allStatus = provider.checkAllStatus();
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     var colorsClass = Provider.of<MultiColor>(context);
@@ -44,10 +58,9 @@ class _HomePageState extends State<HomePage> {
                 CheckboxListTile(
                   value: allStatus,
                   onChanged: (value) {
-                    setState(() {
-                      allStatus = value!;
-                      colorsClass.selectAll(allStatus);
-                    });
+                    print(value);
+                    allStatus = value!;
+                    colorsClass.selectAll(allStatus);
                   },
                   title: const Text("Select all colors"),
                   controlAffinity: ListTileControlAffinity.leading,
@@ -60,13 +73,19 @@ class _HomePageState extends State<HomePage> {
                         value: e,
                         builder: (context, child) => CheckboxListTile(
                           value: e.status,
-                          onChanged: (value) {
-                            setState(
-                              () {
-                                e.toogleStatus();
-                                allStatus = colorsClass.checkAllStatus();
-                              },
-                            );
+                          onChanged: (status) {
+                            print(status);
+                            colorsClass.updateStatus(e.id, status!).then(
+                                  (value) => value
+                                      ? setState(
+                                          () {
+                                            e.toogleStatus();
+                                          },
+                                        )
+                                      : null,
+                                );
+
+                            allStatus = colorsClass.checkAllStatus();
                           },
                           title: Text(e.title),
                           controlAffinity: ListTileControlAffinity.leading,

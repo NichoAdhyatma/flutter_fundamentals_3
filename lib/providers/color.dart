@@ -12,6 +12,5 @@ class SingleColor with ChangeNotifier {
 
   void toogleStatus() {
     status = !status;
-    notifyListeners();
   }
 }
