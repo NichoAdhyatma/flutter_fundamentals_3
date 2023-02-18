@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import './providers/colors.dart';
-import './pages/home_page.dart';
+import './pages/home_page_checkbox.dart';
 import './pages/add_color_page.dart';
 
 void main() {
@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => MultiColor(),
       builder: (context, child) => MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: const HomePage(),
         routes: {
           HomePage.routeName: (ctx) => const HomePage(),
